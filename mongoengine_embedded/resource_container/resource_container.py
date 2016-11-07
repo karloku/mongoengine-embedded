@@ -1,5 +1,4 @@
 from six import add_metaclass
-from mongoengine import Document
 from .container_metaclass import ContainerMetaclass
 
 
