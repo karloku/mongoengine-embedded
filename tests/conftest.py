@@ -6,7 +6,10 @@ from datetime import datetime
 @pytest.fixture(scope='session')
 def db_connection():
     from mongoengine import connect
-    connect('mongoenginetest', host='mongomock://localhost')
+    connect(
+        alias='test',
+        db='mongoenginetest',
+        host='mongomock://localhost')
 
 
 @pytest.fixture(scope='session')
@@ -40,7 +43,8 @@ def MockContainer(db_connection, MockResource, MockCommonResource):
     from mongoengine import Document, DateTimeField, EmbeddedDocumentListField, EmbeddedDocumentField
     from mongoengine_embedded import ResourceContainer
 
-    class MockContainer(Document, ResourceContainer):
+    @ResourceContainer
+    class MockContainer(Document):
         mocks = EmbeddedDocumentListField(
             MockResource,
             element_name='mock',
@@ -52,7 +56,9 @@ def MockContainer(db_connection, MockResource, MockCommonResource):
         common_mock = EmbeddedDocumentField(MockCommonResource)
         modify_at = DateTimeField(default=None, trigger_modify=True)
 
+        meta = {
+            'db_alias': 'test',
+            'collection': 'mocks'
+        }
+
     return MockContainer
-
-
-
