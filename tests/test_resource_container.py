@@ -1,5 +1,6 @@
 import pytest
 from datetime import datetime, timedelta
+from six.moves import range
 
 @pytest.fixture
 def container(MockContainer, request):
@@ -13,10 +14,10 @@ def container(MockContainer, request):
 
 @pytest.fixture
 def container_with_resources(MockResource, container):
-    for i in xrange(10):
+    for i in range(10):
         container.create_mock(name='new_mock_%s' % i)
 
-    for i in xrange(10):
+    for i in range(10):
         container.create_common_mocks(name='new_mock_%s' % i)
 
     container.create_common_mock(name='one_instance_new_mock')
@@ -75,7 +76,6 @@ def test_embedded_resources_can_be_modified_by_id(container_with_resources):
     #modify test
     new_time = datetime.now()
     old_time = container_with_resources.modify_at
-    print old_time
     diff_time = (new_time - old_time).total_seconds()
     assert diff_time < 0.1
 
