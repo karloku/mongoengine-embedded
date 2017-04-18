@@ -36,8 +36,9 @@ def _bind_modify_records(modify_dict, trigger_modify_records):
         modify_dict['set__%s' % modify_record] = time_now
     return modify_dict
 
+
 def embedded_crud_list(base, field, element_name, klass,
-                  soft_deletion_key, match_key, trigger_modify_records):
+                       soft_deletion_key, match_key, trigger_modify_records):
 
     def is_deactive(e):
         return getattr(e, soft_deletion_key, False)
@@ -106,8 +107,8 @@ def embedded_crud_list(base, field, element_name, klass,
     id_name = 'id' if match_key == '_id' else match_key
     setattr(base, 'create_%s' % element_name, create)
     setattr(base, 'get_%s_by_%s' % (element_name, id_name),  show)
-    setattr(base, 'modify_%s_by_%s' %(element_name, id_name), modify)
-    setattr(base, 'destroy_%s_by_%s' %(element_name, id_name), destroy)
+    setattr(base, 'modify_%s_by_%s' % (element_name, id_name), modify)
+    setattr(base, 'destroy_%s_by_%s' % (element_name, id_name), destroy)
 
 
 def embedded_crud(base, field, element_name, klass,
@@ -187,6 +188,7 @@ def _bind_crud(cls, name, field, trigger_modify_records):
         klass=klass,
         soft_deletion_key=soft_deletion_key,
         trigger_modify_records=trigger_modify_records)
+
 
 def _get_embedded_resource_config(name, field):
     element_name = getattr(field, 'element_name', name)

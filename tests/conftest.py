@@ -3,6 +3,7 @@ import mongomock
 
 from datetime import datetime
 
+
 @pytest.fixture(scope='session')
 def db_connection():
     from mongoengine import connect
@@ -23,6 +24,7 @@ def MockResource(db_connection):
 
     return MockResource
 
+
 @pytest.fixture(scope='session')
 def MockCommonResource(db_connection):
     """
@@ -33,7 +35,6 @@ def MockCommonResource(db_connection):
     class MockCommonResource(EmbeddedDocument):
         name = StringField()
         is_removed = BooleanField(default=False)
-
 
     return MockCommonResource
 

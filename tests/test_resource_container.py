@@ -2,15 +2,18 @@ import pytest
 from datetime import datetime, timedelta
 from six.moves import range
 
+
 @pytest.fixture
 def container(MockContainer, request):
     container = MockContainer()
     container.save()
+
     def fin():
         container.delete()
 
     request.addfinalizer(fin)
     return container
+
 
 @pytest.fixture
 def container_with_resources(MockResource, container):
@@ -25,10 +28,12 @@ def container_with_resources(MockResource, container):
 
     return container
 
+
 def test_container_resource_does_not_break_subclass_meta(MockResource, MockContainer):
     mock_resource_meta = MockContainer._meta
     assert mock_resource_meta.get('collection') == 'mocks'
     assert mock_resource_meta.get('db_alias') == 'test'
+
 
 def test_container_resource_has_crud_methods(MockResource, MockContainer):
     assert callable(MockContainer.create_mock)
@@ -48,6 +53,7 @@ def test_container_resource_has_crud_methods(MockResource, MockContainer):
     assert callable(MockContainer.modify_common_mock)
     assert callable(MockContainer.destroy_common_mock)
 
+
 def test_embedded_resources_can_be_created(container_with_resources):
     new_mock = container_with_resources.create_mock(name='new_mock')
     assert new_mock.id
@@ -65,6 +71,7 @@ def test_embedded_resources_can_be_got_by_id(container_with_resources):
     mock = container_with_resources.get_mock_by_id(mock_id)
     assert str(mock.id) == str(mock_id)
 
+
 def test_embedded_resources_can_be_modified_by_id(container_with_resources):
     mock_id = container_with_resources.mocks[4].id
 
@@ -73,12 +80,11 @@ def test_embedded_resources_can_be_modified_by_id(container_with_resources):
     mock = container_with_resources.get_mock_by_id(mock_id)
     assert mock.name == new_name
 
-    #modify test
+    # modify test
     new_time = datetime.now()
     old_time = container_with_resources.modify_at
     diff_time = (new_time - old_time).total_seconds()
     assert diff_time < 0.1
-
 
 
 def test_embedded_resources_can_be_destroyed_by_id(container_with_resources):
@@ -123,6 +129,7 @@ def test_embedded_res_can_be_modified(container_with_resources):
     old_time = container_with_resources.modify_at
     diff_time = (new_time - old_time).total_seconds()
     assert diff_time < 0.1
+
 
 def test_embedded_res_can_be_destroyed(container_with_resources):
     new_name = 'Choson Awesome Mock'
