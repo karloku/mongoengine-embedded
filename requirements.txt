@@ -1,2 +1,1 @@
 mongoengine>=0.10.0
-six>=1.8.0

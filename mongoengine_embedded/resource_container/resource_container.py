@@ -134,7 +134,6 @@ def embedded_crud(base, field, element_name, klass,
         for key in updates.keys():
             key_path = key.split('__')
             key_path.insert(1, '%s' % field)
-            print key_path
             absolute_updates['__'.join(key_path)] = updates[key]
         updated = self.__class__.objects(__raw__=raw_query).update_one(**absolute_updates)
         if updated:

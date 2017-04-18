@@ -75,7 +75,6 @@ def test_embedded_resources_can_be_modified_by_id(container_with_resources):
     #modify test
     new_time = datetime.now()
     old_time = container_with_resources.modify_at
-    print old_time
     diff_time = (new_time - old_time).total_seconds()
     assert diff_time < 0.1
 
