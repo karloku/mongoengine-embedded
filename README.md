@@ -14,7 +14,8 @@ class Masterpiece(mongoengine.EmbeddedDocument, EmbeddedResource):
     title = mongoengine.StringField()
 
 # document contains embedded resource
-class Monkey(mongoengine.Document, ResourceContainer):
+@ResourceContainer
+class Monkey(mongoengine.Document):
     masterpieces = mongoengine.EmbeddedDocumentListField(
         Masterpiece, element_name='masterpiece')
 
