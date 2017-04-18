@@ -24,6 +24,11 @@ def container_with_resources(MockResource, container):
 
     return container
 
+def test_container_resource_does_not_break_subclass_meta(MockResource, MockContainer):
+    mock_resource_meta = MockContainer._meta
+    assert mock_resource_meta.get('collection') == 'mocks'
+    assert mock_resource_meta.get('db_alias') == 'test'
+
 def test_container_resource_has_crud_methods(MockResource, MockContainer):
     assert callable(MockContainer.create_mock)
     assert callable(MockContainer.get_mock_by_id)
@@ -130,6 +135,3 @@ def test_embedded_res_can_be_destroyed(container_with_resources):
     old_time = container_with_resources.modify_at
     diff_time = (new_time - old_time).total_seconds()
     assert diff_time < 0.1
-
-
-
