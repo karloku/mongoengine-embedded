@@ -36,7 +36,7 @@ def read(fname):
 setup(
     name='mongoengine-embedded',
     version=find_version(),
-        description=('Access embedded documents with CRUD by id.'),
+    description=('Access embedded documents with CRUD by id.'),
     long_description=read("README.rst"),
     author='Karloku Sang',
     author_email='karloku@loku.it',
