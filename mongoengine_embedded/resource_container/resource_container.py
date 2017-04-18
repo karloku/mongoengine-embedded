@@ -1,4 +1,4 @@
-from itertools import ifilter
+from six import iteritems
 from mongoengine import ListField, EmbeddedDocumentField, DateTimeField
 from mongoengine.base import TopLevelDocumentMetaclass
 from bson.objectid import ObjectId
@@ -196,12 +196,12 @@ def _get_embedded_resource_config(name, field):
 
 
 def ResourceContainer(document_klass):
-    iter_fields = document_klass._fields.iteritems
+    fields = document_klass._fields
     trigger_modify_records = [
-        n for (n, f) in iter_fields() if is_modify_time_record_field(f)
+        n for (n, f) in iteritems(fields) if is_modify_time_record_field(f)
     ]
 
-    for name, field in iter_fields():
+    for name, field in iteritems(fields):
         if is_embedded_document_list_field(field):
             _bind_crud_list(document_klass, name, field, trigger_modify_records)
         elif is_embedded_document_field(field):

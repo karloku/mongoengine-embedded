@@ -1,5 +1,6 @@
 import pytest
 from datetime import datetime, timedelta
+from six.moves import range
 
 @pytest.fixture
 def container(MockContainer, request):
@@ -13,10 +14,10 @@ def container(MockContainer, request):
 
 @pytest.fixture
 def container_with_resources(MockResource, container):
-    for i in xrange(10):
+    for i in range(10):
         container.create_mock(name='new_mock_%s' % i)
 
-    for i in xrange(10):
+    for i in range(10):
         container.create_common_mocks(name='new_mock_%s' % i)
 
     container.create_common_mock(name='one_instance_new_mock')
